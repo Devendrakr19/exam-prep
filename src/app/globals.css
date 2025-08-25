@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+
+.site_btn{
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 6px;
+    transition: all 0.3s;
+    background: #059669;
+    color: white;
+    cursor: pointer;
+}
+.site_btn:hover {
+    background-color: #047857;
+}
+.border_btn{
+    border: 1px solid #d1d5db;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 6px;
+    transition: all 0.4s;
+    background: transparent;
+    cursor: pointer;
+}
+.border_btn:hover { 
+    border: 1px solid #047857;
+    color: #047857;
+}
