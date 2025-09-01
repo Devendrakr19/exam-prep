@@ -44,7 +44,7 @@ const QuestionsFilter = ({parentName}) => {
   };
 
   return (
-    <div className="flex justify-between items-center px-[30px] pt-[15px]">
+    <div className="flex justify-between items-center px-[30px] pt-[15px] text-[#fff]">
       <div className="flex items-center gap-[20px] flex-wrap">
         {/* Category */}
         <div className="flex items-center gap-[5px]">
@@ -56,7 +56,7 @@ const QuestionsFilter = ({parentName}) => {
               setSelectedSubject("");
               setSelectedTopic("");
             }}
-            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px]"
+            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
           >
             <option value="">-- Select --</option>
             {skills.map((item, index) => (
@@ -76,7 +76,7 @@ const QuestionsFilter = ({parentName}) => {
               setSelectedSubject(e.target.value);
               setSelectedTopic("");
             }}
-            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px]"
+            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
           >
             <option value="">-- Select --</option>
             {getsubject?.items.map((item, index) => (
@@ -94,7 +94,7 @@ const QuestionsFilter = ({parentName}) => {
             <select
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px]"
+              className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
             >
               <option value="">-- Select --</option>
               {getTopic?.topics.map((item, index) => (
@@ -112,7 +112,7 @@ const QuestionsFilter = ({parentName}) => {
           <select
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value)}
-            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px]"
+            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
           >
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
@@ -126,7 +126,7 @@ const QuestionsFilter = ({parentName}) => {
           <select
             value={selectedPage}
             onChange={(e) => setSelectedPage(e.target.value)}
-            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px]"
+            className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
           >
             {perPageData.map((item, index) => (
               <option key={index} value={item?.value}>

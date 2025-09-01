@@ -46,7 +46,7 @@ const QuestionList = () => {
                 {data.map((item, index) => (
                     <tr
                     key={index}
-                    className="odd:bg-white even:bg-[#e3e3e37b] hover:bg-gray-100"
+                    className="even:bg-[#00000062] text-[#f5f3f3] hover:bg-[#00000062]"
                     >
                     <td className="border border-gray-400 px-4 py-2">{item.subject}</td>
                     <td className="border border-gray-400 px-4 py-2">{item.level}</td>

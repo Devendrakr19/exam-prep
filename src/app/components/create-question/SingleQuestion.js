@@ -46,10 +46,10 @@ const SingleQuestion = ({ setActiveTab }) => {
   return (
     <>
       <div className="flex justify-center items-center flex-col p-[20px]">
-        <form className="w-[50%]">
+        <form className="w-[50%] text-[#fff]">
           <h1 className="text-center text-[22px] font-bold mb-[10px]">Create Question</h1>
             {inputQuestion.map((item, index) => (
-            <div key={index} className="flex items-center justify-between gap-[20px] mb-[20px] border-[1px] rounded p-[20px]">
+            <div key={index} className="flex items-center justify-between gap-[20px] mb-[20px] border-[1px] border-[#dddada] rounded p-[20px] bg-[#1e293b]">
               <div className="">
                 <div className="flex flex-col">
                   <label
@@ -62,7 +62,7 @@ const SingleQuestion = ({ setActiveTab }) => {
                     type="text"
                     value={item.question}
                     onChange={(e)=> handleChange(index, "question", e.target.value)}
-                    className="border-[1px] border-[#b9b5b5] outline-[#504e4e] rounded px-[10px] py-[7px]"
+                    className="border-[1px] border-[#717070] outline-[#504e4e] border-shad rounded px-[10px] py-[7px]"
                   />
                 </div>
                 <div className="flex flex-wrap gap-[10px] mt-[10px]">

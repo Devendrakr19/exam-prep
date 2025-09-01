@@ -47,7 +47,7 @@ const Questions = () => {
 
   return (
     <>
-      <div className="mt-[20px] px-[30px] pb-[20px] max-h-[530px] overflow-auto">
+      <div className="mt-[20px] px-[30px] pb-[20px] max-h-[530px] overflow-auto text-[#fff]">
         {questionData.map((item, qindex) => (
           <div
             key={qindex}
@@ -67,7 +67,7 @@ const Questions = () => {
                       (ans) =>
                         ans.question === item.question && ans.answer === op
                     )
-                      ? "border-[#0066ff]"
+                      ? "border-[green]"
                       : "border-[#d1d5db]"
                   }`}
                   onClick={() => handleChecked(item.question, op)}
@@ -93,8 +93,8 @@ const Questions = () => {
           </div>
         ))}
       </div>
-        <div className="flex justify-end gap-[15px] mt-[15px] px-[30px]">
-          <button type="button" className="border_btn !px-[30px]" onClick={() => setAnswers([])}>Cancle</button>
+        <div className="flex justify-end gap-[15px] mt-[15px] px-[30px] pb-[20px]">
+          <button type="button" className="border_btn !px-[30px]" onClick={() => setAnswers([])}>Cancel</button>
           <button className="site_btn !px-[30px]">Submit</button>
         </div>
     </>

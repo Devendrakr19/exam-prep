@@ -4,8 +4,8 @@ import React from 'react'
 const Signup = () => {
   return (
     <> 
-    <div className='bg-[#f3f4f6] h-[100vh] flex justify-center items-center'>
-      <form className='bg-[#ffffff] p-[15px] w-[25%] rounded shadow-xl'>
+    <div className='bg-[#0f172a] h-[100vh] flex justify-center items-center'>
+      <form className='bg-[#1e293b] p-[15px] w-[25%] rounded shadow-xl text-[#fff]'>
         <h1 className='text-center text-[22px] font-medium'>Signup</h1>
         <div className='flex flex-col'>
           <label>Full Name:</label>

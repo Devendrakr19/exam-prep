@@ -22,8 +22,8 @@ const CreateQuestion = () => {
         {createOption.map((item, index) => (
           <div
             key={index}
-            className={`border-[1px] border-[#b3aeae] shadow cursor-pointer rounded p-[10px] w-[220px] h-[200px] flex justify-center items-center flex-col gap-[15px] transition-all delay-75 ${
-              item?.title ? "hover:bg-[#059669] hover:text-[#fff]" : ""
+            className={`border-[1px] border-[#dad6d6] bg-[#1e293b] shadow cursor-pointer rounded p-[10px] w-[220px] h-[200px] flex justify-center items-center flex-col gap-[15px] transition-all delay-75 ${
+              item?.title ? "hover:bg-[#059669] text-[#fff]" : ""
             }`}
             onClick={() => handleTab(index)}
           >
