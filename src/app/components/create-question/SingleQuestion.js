@@ -49,7 +49,7 @@ const SingleQuestion = ({ setActiveTab }) => {
         <form className="w-[50%] text-[#fff]">
           <h1 className="text-center text-[22px] font-bold mb-[10px]">Create Question</h1>
             {inputQuestion.map((item, index) => (
-            <div key={index} className="flex items-center justify-between gap-[20px] mb-[20px] border-[1px] border-[#dddada] rounded p-[20px] bg-[#1e293b]">
+            <div key={index} className="flex items-center justify-between gap-[20px] mb-[20px] border-[1px] border-[#dddada] rounded px-[20px] pt-[15px] pb-[25px] bg-[#1e293b]">
               <div className="">
                 <div className="flex flex-col">
                   <label
