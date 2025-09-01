@@ -1,13 +1,13 @@
-import AdminDashboardNav from '@/app/components/AdminDashboardNav'
-import React from 'react'
+import AdminDashboardNav from "@/app/components/AdminDashboardNav";
+import React from "react";
 
-const AdminLayout = ({chidren}) => {
+const AdminLayout = ({ children }) => {
   return (
     <>
-    <AdminDashboardNav/>
-    {chidren}
+      <AdminDashboardNav />
+      {children}
     </>
-  )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;

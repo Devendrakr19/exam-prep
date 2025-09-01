@@ -27,6 +27,7 @@ const Login = () => {
           </button>
         </div>
           <p className='text-center text-[14px] mt-[5px] text-[#0177ff] underline'> <Link href="/signup">Signup</Link></p>
+          <Link href="/admindashboard">Admin Dashboard</Link>
       </form>
     </div>
     </>
