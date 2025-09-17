@@ -13,9 +13,12 @@ const authStore = create((set) => ({
     try {
       const res = await axios.post("/api/auth/login", formData);
       const { user, token } = res.data;
+
       set({ user, token, loading: false });
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+
+      return user;
     } catch (error) {
       set({
         error: error.response?.data?.error || "Login failed",
@@ -32,7 +35,7 @@ const authStore = create((set) => ({
       console.log("singup ", res);
     } catch (error) {
       set({
-        error: err.response?.data?.error || "Signup failed",
+        error: error.response?.data?.error || "Signup failed",
         loading: false,
       });
     }

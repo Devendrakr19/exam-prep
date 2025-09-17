@@ -1,6 +1,23 @@
-import React from "react";
+"use client"
+import authStore from "@/app/store/authStore";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const Profile = () => {
+  const {logout} = authStore();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const hadleLogout = () =>{
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false);
+      logout();      
+    }, 2000);
+    toast.success("Logout Successfully");
+    router.push("/")
+  }
   return (
     <>
     <div className="pl-[20px] pt-[20px] ">
@@ -36,7 +53,7 @@ const Profile = () => {
         </div>
         <div className="flex items-center gap-[15px] mt-[15px]">
           <button className="site_btn">Save Changes</button>
-          <button className="border_btn">Log Out</button>
+          <button className="border_btn" onClick={hadleLogout}>{loading ? "Loging out..." : "Log Out"}</button>
         </div>
       </div>
     </div>

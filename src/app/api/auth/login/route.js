@@ -19,8 +19,13 @@ export async function POST(req) {
         }
       );
     }
+    let isMatch = false;
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    if (user.role === "admin") {
+      isMatch = user.password === password;
+    } else {
+      isMatch = await bcrypt.compare(password, user.password);
+    }
 
     if (!isMatch) {
       return Response.json(
@@ -32,7 +37,7 @@ export async function POST(req) {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -40,7 +45,7 @@ export async function POST(req) {
       {
         message: "Login successfull",
         token,
-        user: { name: user.name, email: user.email },
+        user: { name: user.name, email: user.email, role: user.role },
       },
       { status: 200 }
     );
