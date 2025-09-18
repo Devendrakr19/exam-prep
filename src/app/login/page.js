@@ -30,23 +30,25 @@ const Login = () => {
     e.preventDefault();
     if (!inputs.email || inputs.email.trim() === "") {
       setEmailError("Email is Required");
-      return
+      return;
     }
     if (!inputs.email || inputs.email.trim() === "") {
       setPasswordError("Password is Required");
-      return
+      return;
     }
     try {
-      let user = await login(inputs); 
-      toast.success("Login successful!");
-
-      if (user.role === "admin") {
-        router.push("/admindashboard");
-      } else {
-        router.push("/dashboard");
+      let user = await login(inputs);
+      if (user && !user.error) {
+        toast.success("Login successful!");
+        if (user.role === "admin") {
+          router.push("/admindashboard");
+        } else {
+          router.push("/dashboard");
+        }
       }
     } catch (error) {
       console.log("error", error);
+      toast.error("Login failed. Please try again.");
     }
   };
 
@@ -97,9 +99,9 @@ const Login = () => {
               )}
             </span>
           </div>
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <span className="text-[14px] cursor-pointer">Forgot password</span>
-          </div>
+          </div> */}
           <div className="flex justify-center mt-[20px]">
             <button type="submit" className="site_btn !px-[40px]">
               {loading ? "Submitting..." : "Submit"}
@@ -108,7 +110,7 @@ const Login = () => {
           <p className="text-center text-[14px] mt-[5px] text-[#0177ff] underline">
             {" "}
             <Link href="/signup">Signup</Link>
-          </p> 
+          </p>
         </form>
       </div>
     </>
