@@ -9,11 +9,11 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
-  const { login, loading } = authStore();
+  const { login, loading, error } = authStore();
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
+  const [passwordError, setPasswordError] = useState(""); 
+  
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -45,10 +45,13 @@ const Login = () => {
         } else {
           router.push("/dashboard");
         }
+      } else {
+        toast.error(error);
       }
-    } catch (error) {
-      console.log("error", error);
-      toast.error("Login failed. Please try again.");
+    } catch (er) {
+      console.log("error", er);
+
+      toast.error(er);
     }
   };
 
