@@ -23,11 +23,12 @@ export async function GET(req) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const skip = (page - 1) * limit;
 
-    const filter = {};
-    if (category) filter.category = category;
-    if (subject) filter.subject = subject;
-    if (topic) filter.topic = topic;
-    if (level) filter.level = level;
+    const filter = {
+      category: { $regex: category, $options: "i" },
+      subject: { $regex: subject, $options: "i" },
+    };
+    if (topic) filter.topic = { $regex: topic, $options: "i" };
+    if (level) filter.level = { $regex: level, $options: "i" };
 
     const total = await manualQuestion.countDocuments(filter);
 

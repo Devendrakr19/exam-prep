@@ -3,8 +3,10 @@ import axios from "axios";
 import { create } from "zustand";
 
 const manualQuestionStore = create((set) => ({
-    allQuestionData: null,
+    allQuestionData: [],
     allQuestionLoading: false,
+    allUsersList: [],
+    allUserLoading: false,
     loading: false,
 
   createQuestion: async (formData) => {
@@ -15,7 +17,6 @@ const manualQuestionStore = create((set) => ({
       set({ loading: false });
       return { success: true };
     } catch (error) {
-      console.log("errro store", error);
       const errMsg = error.response?.data?.error || "Creation failed";
       set({ loading: false });
       return { success: false, error: errMsg };
@@ -30,6 +31,18 @@ const manualQuestionStore = create((set) => ({
     } catch (error){
         const errMsg = error.response?.data?.error || "Getting all question failed";
         set({allQuestionLoading: false});
+        return {success: false, error: errMsg}
+    }
+  },
+  getAllUser: async ()=>{
+    set({allUserLoading: true});
+    try{
+        let res = await axios.get("/api/admin/userslist", authConfig());
+        set({allUsersList:res.data, allUserLoading: false});
+        return {success: true};
+    } catch (error){
+        const errMsg = error.response?.data?.error || "Getting all user failed";
+        set({allUserLoading: false});
         return {success: false, error: errMsg}
     }
   }

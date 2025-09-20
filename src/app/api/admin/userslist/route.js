@@ -17,7 +17,7 @@ export async function GET(req) {
       return Response.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const users = await User.find().select("-password");
+     const users = await User.find({ role: { $ne: "admin" } }).select("-password").sort({ createdAt: -1 });
 
     return Response.json({ users }, { status: 200 });
   } catch (error) {

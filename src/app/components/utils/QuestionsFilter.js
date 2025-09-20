@@ -1,16 +1,24 @@
 "use client";
 import React, { useState } from "react";
-import { skills } from "../utils/FormFields"
+import { skills } from "../utils/FormFields";
+import manualQuestionStore from "@/app/store/adminstore/manualQuestionStore";
+import toast from "react-hot-toast";
+import questionBankStore from "@/app/store/userstore/questionBankStore";
 
-const QuestionsFilter = ({parentName}) => {
+const QuestionsFilter = ({ parentName }) => {
+  const {getAllQusetions, allQuestionLoading } = manualQuestionStore();
+  const {getFilterQuestons, loading} = questionBankStore();
+
   const [selectedCategory, setSelectCategory] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [selectedPage, setSelectedPage] = useState("10");
-  const [selectedLevel, setSelectedLevel] = useState("easy");
 
   const getsubject = skills.find((sub) => sub?.group === selectedCategory);
-  const getTopic = getsubject?.items.find((tp) => tp?.category === selectedSubject);
+  const getTopic = getsubject?.items.find(
+    (tp) => tp?.category === selectedSubject
+  );
 
   const perPageData = [
     { title: 10, value: "10" },
@@ -22,25 +30,36 @@ const QuestionsFilter = ({parentName}) => {
     { title: 150, value: "150" },
   ];
 
-  const handleSubmit = () => {
-    const fromData = ({
-      category: selectedCategory,
-      subject: selectedSubject,
-      topic: selectedTopic,
-      level: selectedLevel,
-      perPage: selectedPage,
-    });
-    try{
-        if(parentName === "Question bank"){
-            //Api dispatch
-        } else if (parentName === "practice test"){
-            //api dispatch
+  const handleSubmit = async () => {
+    try {
+      if (parentName === "Question bank") {
+        let result = await getAllQusetions({
+          category: selectedCategory || "",
+          subject: selectedSubject || "",
+          topic: selectedTopic || "",
+          level: selectedLevel || "",
+          page: 1,
+          limit: selectedPage,
+        });
+        if(!result.success){
+          toast.error(result.error)
         }
-    } catch (error){
-       console.log(error);
-       
+      } else if (parentName === "practice test") {
+        let result = await getFilterQuestons({
+          category: selectedCategory || "",
+          subject: selectedSubject || "",
+          topic: selectedTopic || "",
+          level: selectedLevel || "",
+          page: 1,
+          limit: selectedPage,
+        });
+        if(!result.success){
+          toast.error(result.error)
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
-
   };
 
   return (
@@ -114,6 +133,7 @@ const QuestionsFilter = ({parentName}) => {
             onChange={(e) => setSelectedLevel(e.target.value)}
             className="border-[1px] border-[#d1d5db] rounded px-[10px] py-[5px] text-[#000] bg-[#ffffffe8]"
           >
+            <option value="">-- Select --</option>
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
@@ -138,11 +158,8 @@ const QuestionsFilter = ({parentName}) => {
       </div>
 
       {/* Submit Button */}
-      <button
-        className="site_btn"
-        onClick={handleSubmit}
-      >
-        {parentName === "Question bank" ? "Search" : "Get Question"}
+      <button className="site_btn" onClick={handleSubmit} disabled={allQuestionLoading || loading}>
+        {parentName === "Question bank" ? allQuestionLoading ? "Searching..." : "Search" : loading ? "Getting..." : "Get Question"}
       </button>
     </div>
   );

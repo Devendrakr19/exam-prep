@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   role: { type: String, default: "user" },
   blocked: { type: Boolean, default: false },
-});
+}, { timestamps: true });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const SingleQuestion = ({ setActiveTab }) => {
   const router = useRouter();
-  const {loading } = manualQuestionStore();
+  const {createQuestion, loading } = manualQuestionStore();
   const [inputQuestion, setInputQuestion] = useState([
     {
       question: "",
@@ -99,6 +99,11 @@ const SingleQuestion = ({ setActiveTab }) => {
         newErrors[i].answer = "Answer must match one of the options";
         isValid = false;
       }
+      const optionsSet = new Set(q.options.map(opt => opt.trim()));
+    if (optionsSet.size !== q.options.length) {
+      newErrors[i].options = "Options must be unique";
+      isValid = false;
+    }
     });
 
     setErrors(newErrors);
@@ -186,6 +191,9 @@ const SingleQuestion = ({ setActiveTab }) => {
                       />
                     </div>
                   ))}
+                  {errors[index]?.options && (
+                    <p className="text-red-500 text-sm mt-1">{errors[index].options}</p>
+                  )}
                   <div className="flex flex-col w-[100%]">
                     <label
                       htmlFor="optionD"
