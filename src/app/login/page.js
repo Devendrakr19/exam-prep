@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import authStore from "../store/authStore";
@@ -19,6 +19,19 @@ const Login = () => {
     password: "",
   });
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        if (user.role === "admin") {
+          router.replace("/admindashboard");
+        } else {
+          router.replace("/dashboard");
+        }
+      }
+    }
+  }, [router]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputs((prev) => ({ ...prev, [name]: value }));
@@ -32,7 +45,7 @@ const Login = () => {
       setEmailError("Email is Required");
       return;
     }
-    if (!inputs.email || inputs.email.trim() === "") {
+    if (!inputs.password || inputs.password.trim() === "") {
       setPasswordError("Password is Required");
       return;
     }
@@ -50,7 +63,6 @@ const Login = () => {
       }
     } catch (er) {
       console.log("error", er);
-
       toast.error(er);
     }
   };

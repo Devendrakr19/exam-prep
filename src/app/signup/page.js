@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import authStore from "../store/authStore";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -26,6 +26,19 @@ const Signup = () => {
     password: "",
     confirmpasword: "",
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        if (user.role === "admin") {
+          router.replace("/admindashboard");
+        } else {
+          router.replace("/dashboard");
+        }
+      }
+    }
+  }, [router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

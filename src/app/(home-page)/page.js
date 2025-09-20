@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import OurPlatform from "../components/home-page/OurPlatform";
 import PracticePapers from "../components/home-page/PracticePapers";
 import Footer from "../components/home-page/Footer";
+import { MdNavigateNext } from "react-icons/md";
+import { GrFormPrevious } from "react-icons/gr";
 
 const Home = () => {
   const [slide, setSlide] = useState(0);
@@ -35,8 +37,8 @@ const Home = () => {
     <div className="bg-[#f3f4f6]">
       <div className="w-full h-[650px] relative">
         <Image src={sliderData[slide].img} fill alt="No img"  className="object-cover"/> 
-        <button onClick={handlePrev} className="cursor-pointer absolute top-[250px] text-[80px] text-[white]">{"<"}</button>
-        <button onClick={handleNext} className="cursor-pointer absolute top-[250px] right-[0px] text-[80px] text-[white]">{">"}</button>
+        <button onClick={handlePrev} className="cursor-pointer absolute top-[250px] text-[80px] text-[white]"><GrFormPrevious/></button>
+        <button onClick={handleNext} className="cursor-pointer absolute top-[250px] right-[0px] text-[80px] text-[white]"><MdNavigateNext/></button>
       </div>
       <OurPlatform/>
       <PracticePapers/>
