@@ -9,15 +9,19 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const hadleLogout = () =>{
-    setLoading(true)
-    setTimeout(() => {
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+      toast.success("Successfully logged out");
+      router.push("/");
+    } catch (err) {
+      toast.error("Logout failed");
+    } finally {
       setLoading(false);
-      logout();      
-    }, 2000);
-    toast.success("Successfully Logout");
-    router.push("/")
-  }
+    }
+  };
+
 
   return (
     <>
@@ -54,7 +58,7 @@ const Profile = () => {
           </div>
           <div className="flex items-center gap-[15px] mt-[15px]">
             <button className="site_btn">Save Changes</button>
-            <button className="border_btn" onClick={hadleLogout}>{loading ? "Loging out..." : "Log Out"}</button>
+            <button className="border_btn" onClick={handleLogout}>{loading ? "Loging out..." : "Log Out"}</button>
           </div>
         </div>
       </div>

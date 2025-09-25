@@ -1,17 +1,41 @@
 "use client";
 import manualQuestionStore from "@/app/store/adminstore/manualQuestionStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import ConfirmPopup from "../../utils/ConfirmPopup";
+import UpdateQuestion from "../../create-question/UpdateQuestion";
 
 const QuestionList = () => {
   const getUser = JSON.parse(localStorage.getItem("user"));
+  const { getAllQusetions, allQuestionData, allQuestionLoading } = manualQuestionStore();
+  const [open, setOpen] = useState(false);
+  const [getdeleteId, setGetDeleteId] = useState(null);
+   const [editOpen, setEditOpen] = useState(false);
+  const [getEditId, setGetEditId] = useState(null);
 
-  const { getAllQusetions, allQuestionData, allQuestionLoading } =
-    manualQuestionStore();
+  const handleClose = () => {
+    setOpen(false);
+    setGetDeleteId(null)
+  }
+  const handleOpen = (id) =>{ 
+    setGetDeleteId(id)
+    setOpen(true);
+  }
+
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setGetEditId(null)
+  }
+
+  const handleEditOpen = (id) =>{ 
+    setGetEditId(id)
+    setEditOpen(true);
+  }
+
 
   useEffect(() => {
     getAllQusetions({
@@ -121,10 +145,10 @@ const QuestionList = () => {
                   {getUser.role !== "user" && (
                     <td className="border border-gray-400 px-4 py-2">
                       <div className="flex items-center gap-[5px]">
-                        <span className="site_btn">
+                        <span className="site_btn cursor-pointer" onClick={()=> handleEditOpen(item)}>
                           <CiEdit className="text-[24px]" />
                         </span>
-                        <span className="border_btn">
+                        <span className="border_btn cursor-pointer" onClick={()=> handleOpen(item?._id)}>
                           <MdDeleteOutline className="text-[24px] text-[red]" />
                         </span>
                       </div>
@@ -146,6 +170,9 @@ const QuestionList = () => {
           </div>
         )}
       </div>
+      {open && <ConfirmPopup open={open} onClose={handleClose} getdeleteId={getdeleteId}/>}
+      {editOpen && <UpdateQuestion editOpen={editOpen} editClose={handleEditClose} getEditId={getEditId}/>}
+
     </>
   );
 };

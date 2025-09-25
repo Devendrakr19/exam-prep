@@ -1,5 +1,4 @@
-import { authConfig } from "@/app/components/utils/authConfig";
-import axios from "axios";
+import RefreshToken from "@/app/components/utils/RefreshToken"; 
 import { create } from "zustand";
 
 const questionBankStore = create((set)=>({
@@ -9,8 +8,8 @@ const questionBankStore = create((set)=>({
 
     getFilterQuestons: async ({ category = "", subject = "", topic = "", level = "", page = 1, limit = 10 })=>{
       set({loading: true});
-       try{
-        const res = await axios.get(`/api/allquestion?category=${category}&subject=${subject}&topic=${topic}&level=${level}&page=${page}&limit=${limit}`, authConfig());
+       try{ 
+        const res = await RefreshToken.get(`/allquestion?category=${category}&subject=${subject}&topic=${topic}&level=${level}&page=${page}&limit=${limit}`);
         set({questionData:res.data, loading: false});
         return {success: true};
        } catch (error){

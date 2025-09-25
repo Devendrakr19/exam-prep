@@ -36,18 +36,33 @@ export async function POST(req) {
       );
     }
 
-    const token = jwt.sign(
+   const accessToken = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
+
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "2d" }
+    );
+
+    const headers = new Headers();
+    headers.append("Set-Cookie", `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=604800`);
+
     return Response.json(
       {
         message: "Login successfull",
-        token,
+        accessToken,
         user: { name: user.name, email: user.email, role: user.role },
       },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=${2 * 24 * 60 * 60}`, // 2 days
+        },
+      }
     );
   } catch (error) {
     return Response.json(

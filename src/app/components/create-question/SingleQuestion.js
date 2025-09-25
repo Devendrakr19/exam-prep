@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const SingleQuestion = ({ setActiveTab }) => {
   const router = useRouter();
-  const {createQuestion, loading } = manualQuestionStore();
+  const { createQuestion, loading } = manualQuestionStore();
   const [inputQuestion, setInputQuestion] = useState([
     {
       question: "",
@@ -99,16 +99,16 @@ const SingleQuestion = ({ setActiveTab }) => {
         newErrors[i].answer = "Answer must match one of the options";
         isValid = false;
       }
-      const optionsSet = new Set(q.options.map(opt => opt.trim()));
-    if (optionsSet.size !== q.options.length) {
-      newErrors[i].options = "Options must be unique";
-      isValid = false;
-    }
+      const optionsSet = new Set(q.options.map((opt) => opt.trim()));
+      if (optionsSet.size !== q.options.length) {
+        newErrors[i].options = "Options must be unique";
+        isValid = false;
+      }
     });
 
     setErrors(newErrors);
 
-    if(!isValid){
+    if (!isValid) {
       return;
     }
 
@@ -145,76 +145,7 @@ const SingleQuestion = ({ setActiveTab }) => {
               className="flex items-center justify-between gap-[20px] mb-[20px] border-[1px] border-[#dddada] rounded px-[20px] pt-[15px] pb-[25px] bg-[#1e293b]"
             >
               <div className="">
-                <div className="flex flex-col">
-                  <label
-                    htmlFor="question"
-                    className="text-[16px] font-semibold"
-                  >
-                    Q{index + 1}). Enter Your Question{" "}
-                    <span className="text-[red]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={item.question}
-                    onChange={(e) =>
-                      handleChange(index, "question", e.target.value)
-                    }
-                    className="border-[1px] border-[#717070] outline-[#504e4e] border-shad rounded px-[10px] py-[7px]"
-                  />
-                  {errors[index]?.question && (
-                    <p className="text-red-500 text-sm">
-                      {errors[index].question}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-[10px] mt-[10px]">
-                  {["A", "B", "C", "D"].map((label, optIndex) => (
-                    <div key={label} className="flex flex-col w-[49%]">
-                      <label
-                        htmlFor="optionA"
-                        className="text-[16px] font-semibold"
-                      >
-                        Option {label}
-                      </label>
-                      <input
-                        type="text"
-                        value={item.options[optIndex]}
-                        onChange={(e) =>
-                          handleChange(
-                            index,
-                            "options",
-                            e.target.value,
-                            optIndex
-                          )
-                        }
-                        className="border-[1px] border-[#b9b5b5] outline-[#504e4e] rounded px-[10px] py-[7px]"
-                      />
-                    </div>
-                  ))}
-                  {errors[index]?.options && (
-                    <p className="text-red-500 text-sm mt-1">{errors[index].options}</p>
-                  )}
-                  <div className="flex flex-col w-[100%]">
-                    <label
-                      htmlFor="optionD"
-                      className="text-[16px] font-semibold"
-                    >
-                      Answer<span className="text-[red]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={item.answer}
-                      onChange={(e) =>
-                        handleChange(index, "answer", e.target.value)
-                      }
-                      className="border-[1px] border-[#b9b5b5] outline-[#504e4e] rounded px-[10px] py-[7px]"
-                    />
-                    {errors[index]?.answer && (
-                      <p className="text-red-500 text-sm">
-                        {errors[index].answer}
-                      </p>
-                    )}
-                  </div>
+                <div className="flex flex-wrap gap-[10px]">
                   <div className="flex flex-col w-[49%]">
                     <label>
                       Category <span className="text-[red]">*</span>
@@ -334,6 +265,80 @@ const SingleQuestion = ({ setActiveTab }) => {
                     {errors[index]?.level && (
                       <p className="text-red-500 text-sm">
                         {errors[index].level}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col  mt-[10px]">
+                  <label
+                    htmlFor="question"
+                    className="text-[16px] font-semibold"
+                  >
+                    Q{index + 1}). Enter Your Question{" "}
+                    <span className="text-[red]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={item.question}
+                    onChange={(e) =>
+                      handleChange(index, "question", e.target.value)
+                    }
+                    className="border-[1px] border-[#717070] outline-[#504e4e] border-shad rounded px-[10px] py-[7px]"
+                  />
+                  {errors[index]?.question && (
+                    <p className="text-red-500 text-sm">
+                      {errors[index].question}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-[10px] mt-[10px]">
+                  {["A", "B", "C", "D"].map((label, optIndex) => (
+                    <div key={label} className="flex flex-col w-[49%]">
+                      <label
+                        htmlFor="optionA"
+                        className="text-[16px] font-semibold"
+                      >
+                        Option {label}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.options[optIndex]}
+                        onChange={(e) =>
+                          handleChange(
+                            index,
+                            "options",
+                            e.target.value,
+                            optIndex
+                          )
+                        }
+                        className="border-[1px] border-[#b9b5b5] outline-[#504e4e] rounded px-[10px] py-[7px]"
+                      />
+                    </div>
+                  ))}
+                  {errors[index]?.options && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors[index].options}
+                    </p>
+                  )}
+                  <div className="flex flex-col w-[100%]">
+                    <label
+                      htmlFor="optionD"
+                      className="text-[16px] font-semibold"
+                    >
+                      Answer<span className="text-[red]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={item.answer}
+                      onChange={(e) =>
+                        handleChange(index, "answer", e.target.value)
+                      }
+                      className="border-[1px] border-[#b9b5b5] outline-[#504e4e] rounded px-[10px] py-[7px]"
+                    />
+                    {errors[index]?.answer && (
+                      <p className="text-red-500 text-sm">
+                        {errors[index].answer}
                       </p>
                     )}
                   </div>

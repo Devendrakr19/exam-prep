@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import axios from "axios";
+import axios from "axios"; 
 
 const authStore = create((set) => ({
   user: null,
-  token: null,
+  accessToken: null,
   loading: false,
   error: null,
 
@@ -12,10 +12,10 @@ const authStore = create((set) => ({
 
     try {
       const res = await axios.post("/api/auth/login", formData);
-      const { user, token } = res.data;
+      const { user, accessToken } = res.data;
 
-      set({ user, token, loading: false });
-      localStorage.setItem("token", token);
+      set({ user, accessToken, loading: false });
+      localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
       return user;
@@ -41,10 +41,11 @@ const authStore = create((set) => ({
     }
   },
   
-  logout: () => {
+  logout: async () => {
     set({ user: null, token: null });
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
+    await axios.post("/api/auth/logout");
   },
 }));
 
