@@ -8,6 +8,7 @@ const Profile = () => {
   const {logout} = authStore();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const profileData = JSON.parse(localStorage.getItem("user")); 
 
   const handleLogout = async () => {
     setLoading(true);
@@ -22,6 +23,17 @@ const Profile = () => {
     }
   };
 
+  function getInitials(fullName) {
+    if (!fullName) return "";
+
+    const names = fullName.trim().split(" ");
+    const firstInitial = names[0]?.[0]?.toUpperCase() || "";
+    const lastInitial = names[1]?.[0]?.toUpperCase() || "";
+
+    return firstInitial + lastInitial;
+  } 
+
+
 
   return (
     <>
@@ -29,7 +41,7 @@ const Profile = () => {
         <div className="w-[600px] bg-[#1e293b] p-[20px] rounded shadow text-[#fff] ">
           <div className="flex items-center gap-[10px]">
             <span className="w-[40px] h-[40px] flex justify-center items-center bg-[red] rounded-full font-bold">
-              DK
+              {getInitials(profileData?.name)}
             </span>
             <div className="flex flex-col">
               <span className="font-bold">Profile</span>
@@ -43,6 +55,8 @@ const Profile = () => {
               <label>Name</label>
               <input
                 type="text"
+                value={profileData?.name || ""}
+                readOnly
                 placeholder="Enter name"
                 className="border-[1px] outline-[#000000] border-[#d0d3d3] px-[10px] py-[6px] rounded mt-[2px]"
               />
@@ -51,13 +65,15 @@ const Profile = () => {
               <label>Email:</label>
               <input
                 type="email"
+                value={profileData?.email || ""}
+                readOnly
                 placeholder="Enter Email"
                 className="border-[1px] outline-[#000000] border-[#d0d3d3] px-[10px] py-[6px] rounded mt-[2px]"
               />
             </div>
           </div>
           <div className="flex items-center gap-[15px] mt-[15px]">
-            <button className="site_btn">Save Changes</button>
+            {/* <button className="site_btn">Save Changes</button> */}
             <button className="border_btn" onClick={handleLogout}>{loading ? "Loging out..." : "Log Out"}</button>
           </div>
         </div>

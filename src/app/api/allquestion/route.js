@@ -6,7 +6,7 @@ export async function GET(req) {
   await connectDB();
 
   try {
-    const auth = authenticate(req);
+    const auth = await authenticate(req);
 
     if (auth.error) {
       return Response.json({ error: auth.error }, { status: auth.status });

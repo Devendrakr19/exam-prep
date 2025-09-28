@@ -45,8 +45,15 @@ const authStore = create((set) => ({
     set({ user: null, token: null });
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
-    await axios.post("/api/auth/logout");
-  },
+    // await axios.post("/api/auth/logout");
+    try {
+        await axios.post("/api/auth/logout");
+      } catch {}
+
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+    },
 }));
 
 export default authStore;

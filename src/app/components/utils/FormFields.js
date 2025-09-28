@@ -1,3 +1,5 @@
+
+// Home page data
 export const practiceData = [
   {
     group: "IT & Computer Science",

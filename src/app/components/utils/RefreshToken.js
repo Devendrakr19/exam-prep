@@ -24,20 +24,19 @@ RefreshToken.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Call refresh endpoint (refresh token sent via HttpOnly cookie)
+        // Try refresh
         const refreshRes = await axios.post("/api/auth/refresh", {}, { withCredentials: true });
         const { accessToken } = refreshRes.data;
 
-        // Save new access token
         localStorage.setItem("accessToken", accessToken);
-        authStore.setState({ accessToken: accessToken });
+        authStore.setState({ accessToken });
 
-        // Retry original request with new token
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return RefreshToken(originalRequest);
       } catch (refreshError) {
-        // Refresh failed → logout user
-        authStore.getState().logout();
+        // Refresh failed → logout and redirect
+        alert("Your session has expired. Please log in again.");
+        await authStore.getState().logout();
         return Promise.reject(refreshError);
       }
     }
@@ -45,5 +44,6 @@ RefreshToken.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default RefreshToken;

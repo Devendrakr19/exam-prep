@@ -61,6 +61,7 @@ export async function POST(req) {
         status: 200,
         headers: {
           "Set-Cookie": `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=${2 * 24 * 60 * 60}`, // 2 days
+          //  "Set-Cookie": `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=${10 * 60}`,
         },
       }
     );

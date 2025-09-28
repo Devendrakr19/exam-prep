@@ -15,7 +15,7 @@ const AdminDashboardNav = () => {
   ];
   return (
     <>
-      <div className="flex justify-between items-center px-[20px] py-[14px] bg-[#f3f4f6]">
+      <div className="flex justify-between items-center px-[20px] py-[14px] bg-[#f3f4f6] sticky top-0">
         <div>
           <Image src="/logo.png" width={60} height={60} alt="logo" />
         </div>

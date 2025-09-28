@@ -9,6 +9,8 @@ const manualQuestionStore = create((set) => ({
     loading: false,
     deleteLoading: false,
     updateLoading: false,
+    deleteUserLoading: false,
+    blockUnblockLoading: false,
 
   createQuestion: async (formData) => {
     set({ loading: true });
@@ -71,6 +73,30 @@ const manualQuestionStore = create((set) => ({
       const errMsg = error.response?.data?.error || "Update failed";
       set({ updateLoading: false });
       return { success: false, error: errMsg };
+    }
+  },
+  deleteUser: async (id) =>{
+    set({deleteUserLoading: true});
+    try{
+      await RefreshToken.delete(`/admin/deleteuser?_id=${id}`);
+      set({deleteUserLoading: false});
+      return {success: true};
+    } catch (error){
+      const errMsg = error.response?.data?.error || "Failed to delete";
+      set({deleteUserLoading: false});
+      return {success: false, error: errMsg}
+    }
+  },
+  blockUnblockUser: async (userId, block) =>{
+    set({blockUnblockLoading: true});
+    try{
+      await RefreshToken.patch(`/admin/blockuser?userId=${userId}&block=${block}`);
+      set({blockUnblockLoading: false});
+      return {success: true};
+    } catch (error){
+      const errMsg = error.response?.data?.error || "Failed to block/unblock user";
+      set({blockUnblockLoading: false});
+      return {success: false, error: errMsg}
     }
   },
 }));

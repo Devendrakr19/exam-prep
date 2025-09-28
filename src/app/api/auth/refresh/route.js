@@ -1,49 +1,30 @@
-let isRefreshing = false;
-let refreshPromise = null;
+import jwt from "jsonwebtoken";
+import { parse } from "cookie";
 
-const fetchWithAuth = async (url, options = {}) => {
-  let accessToken = localStorage.getItem("accessToken");
+export async function POST(req) {
+  try {
+    const cookies = parse(req.headers.get("cookie") || "");
+    const refreshToken = cookies.refreshToken;
 
-  let res = await fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (res.status === 401) {
-    if (!isRefreshing) {
-      isRefreshing = true;
-      refreshPromise = fetch("/api/refresh", { method: "POST" })
-        .then((refreshRes) => {
-          if (!refreshRes.ok) throw new Error("Refresh failed");
-          return refreshRes.json();
-        })
-        .then(({ accessToken: newToken }) => {
-          localStorage.setItem("accessToken", newToken);
-          return newToken;
-        })
-        .catch(() => {
-          localStorage.removeItem("accessToken");
-          window.location.href = "/login"; // force logout
-        })
-        .finally(() => {
-          isRefreshing = false;
-        });
+    if (!refreshToken) {
+      return Response.json({ error: "No refresh token" }, { status: 401 });
     }
 
-    const newToken = await refreshPromise;
+    let payload;
+    try {
+      payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    } catch {
+      return Response.json({ error: "Invalid refresh token" }, { status: 401 });
+    }
 
-    // retry original request with new token
-    res = await fetch(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${newToken}`,
-      },
-    });
+    const accessToken = jwt.sign(
+      { id: payload.id, role: payload.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" } // new access token
+    );
+
+    return Response.json({ accessToken }, { status: 200 });
+  } catch (error) {
+    return Response.json({ error: "Refresh failed" }, { status: 500 });
   }
-
-  return res.json();
-};
+}
