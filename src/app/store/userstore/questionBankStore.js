@@ -4,6 +4,8 @@ import { create } from "zustand";
 const questionBankStore = create((set)=>({
     questionData:[],
     loading: false,
+    submitedData: [],
+    submitTestLoading: false,
 
 
     getFilterQuestons: async ({ category = "", subject = "", topic = "", level = "", page = 1, limit = 10 })=>{
@@ -18,8 +20,20 @@ const questionBankStore = create((set)=>({
         return {success: false, error: errMsg}
        }
     },
-
-    resetQuestions: ()=> set({questionData:[]})
+    submitTest: async (questions) =>{
+       set({submitTestLoading: true});
+       try{
+         const res = await RefreshToken.post("/user/practiceresult", questions);
+         set({submitedData:res.data, submitTestLoading: false});
+         return {success: true}
+       } catch (error){
+        const errMsg = error.response?.data?.error || " submitting all question failed";
+        set({submitTestLoading: false})
+        return {success: false, error: errMsg}
+       }
+    },
+    resetQuestions: ()=> set({questionData:[]}),
+    resetTest: ()=> set({submitedData:[]})
 }))
 
 export default questionBankStore;
