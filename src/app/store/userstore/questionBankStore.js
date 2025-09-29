@@ -6,7 +6,9 @@ const questionBankStore = create((set)=>({
     loading: false,
     submitedData: [],
     submitTestLoading: false,
-
+    getSubject: "",
+    
+    setGetSubject: (subject) => set({ getSubject: subject }),
 
     getFilterQuestons: async ({ category = "", subject = "", topic = "", level = "", page = 1, limit = 10 })=>{
       set({loading: true});

@@ -7,7 +7,7 @@ import questionBankStore from "@/app/store/userstore/questionBankStore";
 
 const QuestionsFilter = ({ parentName }) => {
   const {getAllQusetions, allQuestionLoading } = manualQuestionStore();
-  const {getFilterQuestons, loading} = questionBankStore();
+  const {getFilterQuestons, loading, setGetSubject} = questionBankStore();
 
   const [selectedCategory, setSelectCategory] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -31,6 +31,7 @@ const QuestionsFilter = ({ parentName }) => {
   ];
 
   const handleSubmit = async () => {
+    setGetSubject(selectedSubject);
     try {
       if (parentName === "Question bank") {
         let result = await getAllQusetions({

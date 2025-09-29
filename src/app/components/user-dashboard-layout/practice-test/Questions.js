@@ -8,10 +8,11 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Questions = () => {
   const pathname = usePathname();
-  const { questionData, loading, resetQuestions, submitTest, submitTestLoading, submitedData, resetTest} = questionBankStore();
+  const { questionData, loading, resetQuestions, submitTest, submitTestLoading, submitedData, resetTest, setGetSubject, getSubject} = questionBankStore();
 
   const [answers, setAnswers] = useState([]);
   const [isSubmited, setIsSubmited] = useState([]);
@@ -41,6 +42,7 @@ const Questions = () => {
 
   const handleSumit = async () => {
     const formData = {
+      subject: getSubject,
       answers: answers,
     };
     const res = await submitTest(formData);
@@ -49,8 +51,9 @@ const Questions = () => {
     } else {
       toast.error("submit failded");
     }
-  };
-
+    setGetSubject("");
+  }; 
+  
   const resultRef = useRef();
 
   const handledownload = async () => {
@@ -192,14 +195,14 @@ const Questions = () => {
                       key={`${qindex}-${optindex}`}
                       className={`w-[49.5%] p-[10px] flex items-center gap-[5px] cursor-pointer`}
                     >
-                      {(op === item?.yourAnswer && item?.isCorrect === true) ||
+                      {(op === item?.userAnswer && item?.isCorrect === true) ||
                       (op === item?.correctAnswer &&
                         item?.isCorrect === false) ? (
                         <div className="flex items-center gap-[8px]">
                           <FaCheck className="text-[green]" />
                           <span>{op}</span>{" "}
                         </div>
-                      ) : op === item?.yourAnswer &&
+                      ) : op === item?.userAnswer &&
                         item?.isCorrect === false ? (
                         <div className="flex items-center gap-[8px]">
                           <IoMdClose className="text-[#ff0000]" />
@@ -226,6 +229,11 @@ const Questions = () => {
               }}
             >
               Back
+            </button>
+            <button className="site_btn">
+            <Link href="/dashboard/score">
+              Go to Score
+            </Link>
             </button>
             <button
               className="site_btn !px-[30px]"

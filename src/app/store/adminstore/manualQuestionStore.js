@@ -11,6 +11,8 @@ const manualQuestionStore = create((set) => ({
     updateLoading: false,
     deleteUserLoading: false,
     blockUnblockLoading: false,
+    scoreData: [],
+    scoreLoading: false,
 
   createQuestion: async (formData) => {
     set({ loading: true });
@@ -96,6 +98,18 @@ const manualQuestionStore = create((set) => ({
     } catch (error){
       const errMsg = error.response?.data?.error || "Failed to block/unblock user";
       set({blockUnblockLoading: false});
+      return {success: false, error: errMsg}
+    }
+  },
+  getScoreList: async (userId) =>{
+    set({scoreLoading: true});
+    try{
+      const res = await RefreshToken.get(`/user/score?userId=${userId}`);
+      set({scoreData: res.data, scoreLoading: false});
+      return {success: true};
+    } catch (error){
+      const errMsg = error.response?.data?.error || "Failed to fetching score";
+      set({scoreLoading: false});
       return {success: false, error: errMsg}
     }
   },
